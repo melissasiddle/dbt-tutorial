@@ -24,7 +24,6 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
-
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -33,7 +32,16 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 models:
   jaffle_shop:
-    # Config indicated by + and applies to all files under models/example/
-    example:
+    # materialize models in staging as views only 
+    staging:
+      # tables are materialized as columstore tables by default. This is likely to cause issues for new sql serveror Azure versions so we disable it
       +materialized: view
-      +as_columnstore: False
+      as_columnstore: False
+    # materialize models in p2s as tables
+    p2s:
+      # tables are materialized as columstore tables by default. This is likely to cause issues for new sql serveror Azure versions so we disable it
+      +materialized: table
+      as_columnstore: False
+  # exclude models that are in the example folder 
+  # defaults:
+  #   exclude: models/example

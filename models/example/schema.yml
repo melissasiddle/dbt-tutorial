@@ -1,21 +1,16 @@
-
 version: 2
-
 models:
-  - name: my_first_dbt_model
-    description: "A starter dbt model"
+  - name: people
+    # description: Join of product master data and P2S 
+      
     columns:
-      - name: id
-        description: "The primary key for this table"
+      - name: product_active
+        description: Is the product active?
         tests:
-          - unique
-          - not_null
+          - accepted_values:
+              values: ['Y', 'N']
 
-  - name: my_second_dbt_model
-    description: "A starter dbt model"
-    columns:
-      - name: id
-        description: "The primary key for this table"
+      - name: product_productId
+        description: Id for the product 
         tests:
-          - unique
           - not_null
