@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_p2s
+    # description: Join of product master data and P2S 
+    description: price 2 spy. one row per product per vendor per geo  
+    columns:
+      - name: product_active
+        description: '{{ doc("product_active") }}'
+        # Check if anything other than Y or N for active
+        tests:
+          - accepted_values:
+              values: ['Y','N']
+
+      - name: product_productId
+        description: primary key for product 
+        # Check if not null
+        tests:
+          - not_null

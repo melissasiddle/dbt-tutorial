@@ -3,21 +3,30 @@
     tags = ['core']
 ) }}
 
+with 
 
-select 
-    product_productId, 
-    product_productName, 
-    product_active, 
-    product_sku, 
-    site_name, 
-    urlinfo_siteCountryISOCode as ISO_code, 
-    price_currency, 
-    price_local, 
-    available, 
-    product_name, 
-    product_master_wid, 
-    product_master_name
+source as (
+    select * from {{ source('staging','scraped_products_p2s')}}
+),
 
-from staging.scraped_products_p2s s
+staged as (
 
-where brand = 'sennheiser'
+    select 
+        product_productId, 
+        product_productName, 
+        product_active, 
+        product_sku, 
+        site_name, 
+        urlinfo_siteCountryISOCode as ISO_code, 
+        price_currency, 
+        price_local, 
+        available, 
+        product_name, 
+        product_master_wid, 
+        product_master_name
+
+    from source
+    where brand = 'sennheiser'
+)
+
+select * from staged

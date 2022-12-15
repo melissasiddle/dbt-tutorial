@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: staging
+    description: staging schema
+    tables:
+      - name: scraped_products_p2s
+        description: >
+         Price per product accross different vendors and geographies
+        # checks whether the last checked field is between 12-24 hours ago
+        loaded_at_field: CAST(product_lastChecked as DATETIME)
+        freshness:
+          warn_after: {count: 1, period: day}
+          error_after: {count: 2, period: day}
+  - name: dimensional
+    tables:
+      - name: dim_product_master
+        columns: 
+          - name: row_wid
+            tests:
+              - unique
+              - not_null

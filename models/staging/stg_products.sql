@@ -3,10 +3,20 @@
     tags = ['core']
 ) }}
 
+with 
 
-select 
-    row_wid, 
-    J_ITEM_DESC, 
-    J_IMPRP0_DESC 
+source as (
+    select * from {{ source('dimensional','dim_product_master')}}
+),
 
-from dimensional.dim_product_master
+staged as (
+
+    select 
+        row_wid, 
+        J_ITEM_DESC, 
+        J_IMPRP0_DESC 
+
+    from source
+)
+
+select * from staged
